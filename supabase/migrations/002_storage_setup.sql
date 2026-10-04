@@ -5,9 +5,6 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('property-images', 'property-images', false)
 ON CONFLICT (id) DO NOTHING;
 
--- Enforce RLS on storage.objects
-ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
-
 -- 1. Admin Policies: Complete access to all property-images objects
 CREATE POLICY "Admin can manage all property images"
 ON storage.objects
