@@ -26,6 +26,7 @@ type SignupForm = z.infer<typeof signupSchema>;
 export default function SignupPage() {
   const [error, setError] = React.useState<string | null>(null);
   const [success, setSuccess] = React.useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = React.useState<string>('You have successfully signed up. Redirecting...');
   
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<SignupForm>({
     resolver: zodResolver(signupSchema),
@@ -47,8 +48,15 @@ export default function SignupPage() {
     const result = await signup(formData);
     if (result?.error) {
       setError(result.error);
+    } else if (result?.success) {
+      setSuccess(true);
+      if (result.message) {
+        setSuccessMessage(result.message);
+      }
     } else {
-      setSuccess(true); // Since actions.ts does redirect('/'), it might just redirect.
+      // Just in case it succeeded but no success payload was explicitly returned
+      // (like when auto-confirm is on and redirect takes over)
+      setSuccess(true);
     }
   };
 
@@ -63,7 +71,7 @@ export default function SignupPage() {
           {success ? (
             <div className="rounded-[10px] bg-green-50 p-6 text-center text-success border border-green-100">
               <h3 className="text-lg font-semibold mb-2">Account Created</h3>
-              <p>You have successfully signed up. Redirecting...</p>
+              <p>{successMessage}</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">

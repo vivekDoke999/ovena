@@ -62,6 +62,14 @@ export async function signup(formData: FormData) {
   const { data: authData, error: authError } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      data: {
+        first_name: firstName,
+        last_name: lastName,
+        phone: phone || null,
+        role: role,
+      }
+    }
   });
 
   if (authError) {
@@ -72,25 +80,8 @@ export async function signup(formData: FormData) {
     return { error: 'Failed to create user account' };
   }
 
-  // 2. Insert profile using service role to bypass restrictive RLS logic
-  // signUp doesn't establish an immediate authenticated session when email confirmations are required,
-  // causing standard client inserts to fail with RLS error 42501.
-  const { createServiceRoleClient } = await import('@/lib/supabase/server');
-  const serviceClient = createServiceRoleClient();
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { error: profileError } = await (serviceClient.from('profiles') as any).insert([{
-    id: authData.user.id,
-    first_name: firstName,
-    last_name: lastName,
-    phone: phone || null,
-    role: role,
-  }]);
-
-  if (profileError) {
-    console.error('Supabase profile creation error:', profileError);
-    // If profile creation fails, we return an error.
-    return { error: 'Account created, but failed to setup profile. Please contact support.' };
+  if (!authData.session) {
+    return { success: true, message: 'Account created. Check your email to confirm your account.' };
   }
 
   revalidatePath('/', 'layout');
