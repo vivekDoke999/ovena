@@ -1,32 +1,39 @@
 @import "tailwindcss";
 
 :root {
-  /* Brand colors for OVENA - Professional rental marketplace */
-  --background: #F7F5F0;
+  /* LIGHTER COLOR SYSTEM */
+  --background: #FAF9F6;
+  --section-alt: #F4F2ED;
   --surface: #FFFFFF;
-  --foreground: #1C1C1A;
-  --text-secondary: #6B6A63;
-  --text-muted: #89877F;
-  --border-color: #E4E1D8;
   
-  --primary: #315C4C; /* OVENA Forest */
-  --primary-hover: #264A3D;
-  --accent: #B18A52; /* Warm Brass */
-  --success: #3F6B55;
-  --error: #B54B3E;
+  --foreground: #242522; /* Primary Text */
+  --text-secondary: #6F706A;
+  --text-muted: #92938C;
+  --border-color: #E7E4DC;
+  
+  --primary: #3D6658; /* OVENA Green */
+  --primary-hover: #315448;
+  --primary-soft: #E8F0EB;
+  
+  --accent: #B89A68; /* Warm Gold */
+  --accent-soft: #F4EEE3;
+  
+  --error: #B6544A;
+  --success: #4B705B;
 
   --secondary: #FFFFFF;
-  --secondary-hover: #F7F5F0;
+  --secondary-hover: #F4F2ED;
   
   /* Borders and radii */
   --radius-sm: 8px;
   --radius-md: 10px; /* Inputs, buttons */
-  --radius-lg: 14px; /* Cards */
-  --radius-xl: 18px; /* Large sections */
+  --radius-lg: 12px; /* Cards */
+  --radius-xl: 16px; /* Large sections */
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-section-alt: var(--section-alt);
   --color-surface: var(--surface);
   --color-foreground: var(--foreground);
   --color-text-secondary: var(--text-secondary);
@@ -35,7 +42,10 @@
   
   --color-primary: var(--primary);
   --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
+  
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
   --color-success: var(--success);
   --color-error: var(--error);
   
@@ -53,11 +63,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Global Typography Hierarchy */
+/* Global Typography Hierarchy - Editorial but modern */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
   color: var(--foreground);
 }
 

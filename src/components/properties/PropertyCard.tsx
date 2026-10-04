@@ -34,22 +34,26 @@ export default function PropertyCard({ property, imageUrl }: PropertyCardProps) 
         </div>
 
         {/* Content */}
-        <div className="flex flex-col">
-          <div className="flex justify-between items-start mb-0.5">
-            <h3 className="font-semibold text-base text-foreground truncate pr-4">
-              ₹{property.rent_amount.toLocaleString('en-IN')}<span className="text-sm font-normal text-text-secondary"> / month</span>
+        <div className="flex flex-col mt-1">
+          <div className="flex justify-between items-start">
+            <h3 className="font-medium text-[15px] text-foreground truncate pr-4">
+              {property.title}
             </h3>
           </div>
           
-          <div className="flex items-center gap-1.5 text-sm text-foreground mb-0.5">
-            {property.bedrooms !== null && <span className="font-medium">{property.bedrooms} BHK</span>}
-            {property.bedrooms !== null && <span className="text-text-muted">•</span>}
+          <p className="text-[14px] text-text-secondary truncate mt-0.5">{property.locality}, {property.city}</p>
+
+          <div className="flex items-center gap-1.5 text-[13px] text-text-muted mt-1.5">
+            {property.bedrooms !== null && <span>{property.bedrooms} BHK</span>}
+            {property.bedrooms !== null && <span>•</span>}
             <span className="capitalize">{property.furnishing_status?.toLowerCase().replace('_', ' ') || 'Unfurnished'}</span>
-            <span className="text-text-muted">•</span>
+            <span>•</span>
             <span className="capitalize">{property.property_type.toLowerCase()}</span>
           </div>
 
-          <p className="text-sm text-text-secondary truncate">{property.locality}, {property.city}</p>
+          <div className="mt-2 text-[15px] font-semibold text-foreground">
+            ₹{property.rent_amount.toLocaleString('en-IN')}<span className="text-[13px] font-normal text-text-secondary"> / month</span>
+          </div>
         </div>
       </div>
     </Link>
