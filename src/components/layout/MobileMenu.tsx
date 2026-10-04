@@ -8,9 +8,10 @@ import { User } from '@supabase/supabase-js';
 interface MobileMenuProps {
   user: User | null;
   role: string | null;
+  displayName?: string;
 }
 
-export function MobileMenu({ user, role }: MobileMenuProps) {
+export function MobileMenu({ user, role, displayName }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -29,6 +30,11 @@ export function MobileMenu({ user, role }: MobileMenuProps) {
 
       {isOpen && (
         <div className="absolute top-full left-0 w-full bg-surface border-b border-border shadow-md py-4 px-6 flex flex-col gap-4 text-sm font-medium">
+          {user && (
+            <div className="text-foreground font-semibold text-base mb-2 border-b border-border pb-3">
+              Hello, {displayName}
+            </div>
+          )}
           <Link href="/search" onClick={() => setIsOpen(false)} className="py-2 text-text-secondary hover:text-foreground transition-colors">Search Properties</Link>
           
           {role === 'HOST' || role === 'ADMIN' ? (

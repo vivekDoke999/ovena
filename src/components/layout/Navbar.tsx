@@ -7,14 +7,23 @@ export default async function Navbar() {
   const { data: { user } } = await supabase.auth.getUser();
   
   let role: string | null = null;
+  let firstName: string | null = null;
+  let lastName: string | null = null;
+
   if (user) {
     const { data: profile } = await supabase
       .from('profiles')
-      .select('role')
+      .select('role, first_name, last_name')
       .eq('id', user.id)
       .single();
-    if (profile) role = profile.role;
+    if (profile) {
+      role = profile.role;
+      firstName = profile.first_name;
+      lastName = profile.last_name;
+    }
   }
+
+  const displayName = firstName ? `${firstName} ${lastName || ''}`.trim() : 'Account';
 
   return (
     <header className="bg-surface border-b border-border py-4 px-6 md:px-12 flex justify-between items-center sticky top-0 z-50">
@@ -48,9 +57,15 @@ export default async function Navbar() {
                  </>
                )}
             </div>
-            <form action="/auth/logout" method="POST">
-              <button type="submit" className="text-sm font-medium text-text-secondary px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors border border-transparent hover:border-border">Logout</button>
-            </form>
+            
+            <div className="flex items-center gap-3 border-l border-border pl-4 ml-2">
+              <Link href={role === 'HOST' ? '/host' : role === 'ADMIN' ? '/admin' : '/renter/dashboard?tab=profile'} className="text-sm font-semibold text-foreground hover:opacity-80 transition-opacity">
+                {displayName}
+              </Link>
+              <form action="/auth/logout" method="POST">
+                <button type="submit" className="text-sm font-medium text-text-secondary px-3 py-1.5 rounded-lg hover:bg-gray-50 transition-colors border border-transparent hover:border-border">Logout</button>
+              </form>
+            </div>
           </>
         ) : (
           <>
@@ -61,7 +76,7 @@ export default async function Navbar() {
       </div>
 
       {/* Mobile Menu */}
-      <MobileMenu user={user} role={role} />
+      <MobileMenu user={user} role={role} displayName={displayName} />
     </header>
   );
 }
