@@ -72,14 +72,14 @@ export async function signup(formData: FormData) {
     return { error: 'Failed to create user account' };
   }
 
-  // 2. Insert profile using service role to bypass restrictive RLS logic if needed,
-  // but since we just created the auth user, we can insert using the regular client?
-  // Actually, regular client is authenticated as the new user, so inserting their own profile is allowed.
-  // But wait, what if the user intercepts the request and tries to pass 'ADMIN'?
-  // Our schema validation guarantees `role` is only 'RENTER' or 'HOST'.
+  // 2. Insert profile using service role to bypass restrictive RLS logic
+  // signUp doesn't establish an immediate authenticated session when email confirmations are required,
+  // causing standard client inserts to fail with RLS error 42501.
+  const { createServiceRoleClient } = await import('@/lib/supabase/server');
+  const serviceClient = createServiceRoleClient();
   
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { error: profileError } = await (supabase.from('profiles') as any).insert([{
+  const { error: profileError } = await (serviceClient.from('profiles') as any).insert([{
     id: authData.user.id,
     first_name: firstName,
     last_name: lastName,
@@ -88,7 +88,8 @@ export async function signup(formData: FormData) {
   }]);
 
   if (profileError) {
-    // If profile creation fails, we might end up with an orphaned auth user, but for simplicity we just return error.
+    console.error('Supabase profile creation error:', profileError);
+    // If profile creation fails, we return an error.
     return { error: 'Account created, but failed to setup profile. Please contact support.' };
   }
 
