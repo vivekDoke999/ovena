@@ -43,9 +43,12 @@ export async function signup(formData: FormData) {
   const firstName = formData.get('firstName') as string;
   const lastName = formData.get('lastName') as string;
   const email = formData.get('email') as string;
-  const phone = formData.get('phone') as string;
   const password = formData.get('password') as string;
   const role = formData.get('role') as 'RENTER' | 'HOST';
+  
+  // Normalize phone so missing/empty fields become undefined
+  const rawPhone = formData.get('phone');
+  const phone = (typeof rawPhone === 'string' && rawPhone.trim() !== '') ? rawPhone.trim() : undefined;
 
   const validation = signupSchema.safeParse({
     firstName, lastName, email, phone, password, role
