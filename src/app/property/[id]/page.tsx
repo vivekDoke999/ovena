@@ -72,28 +72,28 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
     .filter(Boolean) || [];
 
   return (
-    <main className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 w-full">
+    <main className="max-w-[1200px] mx-auto py-8 px-4 sm:px-6 lg:px-8 w-full bg-background">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-2">
-            <span className="bg-primary/10 text-primary px-2 py-1 rounded text-xs font-bold uppercase tracking-wider">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="bg-primary/5 text-primary border border-primary/20 px-2.5 py-1 rounded-[6px] text-xs font-semibold tracking-wider uppercase">
               {property.property_type}
             </span>
             {property.verification_status === 'VERIFIED' && (
-               <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-bold flex items-center gap-1">
+               <span className="bg-success/10 text-success border border-success/20 px-2.5 py-1 rounded-[6px] text-xs font-semibold flex items-center gap-1 uppercase tracking-wider">
                  ✓ Verified
                </span>
             )}
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-1">{property.title}</h1>
-          <p className="text-gray-500 text-lg">{property.locality}, {property.city}, {property.state} {property.zip_code}</p>
+          <h1 className="text-3xl md:text-4xl font-semibold text-foreground mb-2">{property.title}</h1>
+          <p className="text-text-secondary font-medium text-base md:text-lg">{property.locality}, {property.city}, {property.state} {property.zip_code}</p>
         </div>
         <div className="flex items-center gap-3">
            {user ? (
               <SaveButton propertyId={property.id} initialSaved={isSaved} />
            ) : (
-             <a href="/login" className="px-4 py-2 rounded-md font-medium border bg-white text-gray-700 border-gray-300 hover:bg-gray-50">
+             <a href="/login" className="px-4 py-2 rounded-[10px] font-medium border bg-surface text-foreground border-border hover:bg-gray-50 transition-colors shadow-sm">
                Log in to Save
              </a>
            )}
@@ -101,74 +101,76 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
       </div>
 
       {/* Image Gallery */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-8 h-[50vh] min-h-[400px] rounded-xl overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mb-12 h-[50vh] min-h-[400px] rounded-2xl overflow-hidden">
          {images.length > 0 ? (
            <>
-             <div className="md:col-span-2 md:row-span-2 relative bg-gray-100">
+             <div className="md:col-span-2 md:row-span-2 relative bg-surface hover:opacity-95 transition-opacity cursor-pointer">
                {/* eslint-disable-next-line @next/next/no-img-element */}
                <img src={images[0]} alt="Property Primary" className="w-full h-full object-cover" />
              </div>
              {images.slice(1, 5).map((src, idx) => (
-               <div key={idx} className="relative bg-gray-100 hidden md:block">
+               <div key={idx} className="relative bg-surface hidden md:block hover:opacity-95 transition-opacity cursor-pointer">
                  {/* eslint-disable-next-line @next/next/no-img-element */}
                  <img src={src} alt={`Property ${idx+2}`} className="w-full h-full object-cover" />
                </div>
              ))}
            </>
          ) : (
-           <div className="col-span-full flex items-center justify-center bg-gray-100 text-gray-400">
+           <div className="col-span-full flex flex-col items-center justify-center bg-surface border border-border text-text-muted">
+             <svg className="w-12 h-12 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
              No images available
            </div>
          )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 xl:gap-16">
         {/* Main Content */}
-        <div className="lg:col-span-2 space-y-8">
+        <div className="lg:col-span-2 space-y-10">
           
-          <section className="flex flex-wrap gap-6 py-6 border-y border-gray-200">
+          <section className="flex flex-wrap gap-x-8 gap-y-6 py-8 border-y border-border">
              {property.bedrooms !== null && (
                <div className="flex flex-col">
-                 <span className="text-gray-500 text-sm">Bedrooms</span>
-                 <span className="font-bold text-lg">{property.bedrooms}</span>
+                 <span className="font-semibold text-xl text-foreground">{property.bedrooms}</span>
+                 <span className="text-text-secondary text-sm uppercase tracking-wide mt-1">Bedrooms</span>
                </div>
              )}
              {property.bathrooms !== null && (
-               <div className="flex flex-col border-l pl-6 border-gray-200">
-                 <span className="text-gray-500 text-sm">Bathrooms</span>
-                 <span className="font-bold text-lg">{property.bathrooms}</span>
+               <div className="flex flex-col border-l pl-8 border-border">
+                 <span className="font-semibold text-xl text-foreground">{property.bathrooms}</span>
+                 <span className="text-text-secondary text-sm uppercase tracking-wide mt-1">Bathrooms</span>
                </div>
              )}
              {property.area_sqft !== null && (
-               <div className="flex flex-col border-l pl-6 border-gray-200">
-                 <span className="text-gray-500 text-sm">Area</span>
-                 <span className="font-bold text-lg">{property.area_sqft} <span className="text-sm font-normal">sqft</span></span>
+               <div className="flex flex-col border-l pl-8 border-border">
+                 <span className="font-semibold text-xl text-foreground">{property.area_sqft} <span className="text-sm font-medium">sqft</span></span>
+                 <span className="text-text-secondary text-sm uppercase tracking-wide mt-1">Area</span>
                </div>
              )}
              {property.furnishing_status && (
-               <div className="flex flex-col border-l pl-6 border-gray-200">
-                 <span className="text-gray-500 text-sm">Furnishing</span>
-                 <span className="font-bold text-lg">{property.furnishing_status.replace('_', ' ')}</span>
+               <div className="flex flex-col border-l pl-8 border-border">
+                 <span className="font-semibold text-xl text-foreground capitalize">{property.furnishing_status.toLowerCase().replace('_', ' ')}</span>
+                 <span className="text-text-secondary text-sm uppercase tracking-wide mt-1">Furnishing</span>
                </div>
              )}
           </section>
 
           <section>
-            <h2 className="text-2xl font-bold mb-4">About this property</h2>
-            <div className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+            <h2 className="text-2xl font-semibold text-foreground mb-4">About this property</h2>
+            <div className="text-text-secondary whitespace-pre-wrap leading-relaxed text-lg font-light">
               {property.description}
             </div>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-bold mb-4">Amenities</h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <section className="pt-6 border-t border-border">
+            <h2 className="text-2xl font-semibold text-foreground mb-6">Amenities</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-4">
               {amenities.map((amenity: string, idx: number) => (
-                <div key={idx} className="flex items-center gap-2 text-gray-700">
-                  <span className="text-primary">•</span> {amenity}
+                <div key={idx} className="flex items-center gap-3 text-foreground font-medium">
+                  <svg className="w-5 h-5 text-primary opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                  {amenity}
                 </div>
               ))}
-              {amenities.length === 0 && <div className="text-gray-500">Not specified</div>}
+              {amenities.length === 0 && <div className="text-text-muted">Not specified</div>}
             </div>
           </section>
 
@@ -176,35 +178,35 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
 
         {/* Sidebar */}
         <div className="relative">
-          <div className="sticky top-24 bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
-             <div className="mb-6">
-               <span className="text-3xl font-bold text-gray-900">₹{property.rent_amount.toLocaleString('en-IN')}</span>
-               <span className="text-gray-500"> / month</span>
+          <div className="sticky top-28 bg-surface p-6 md:p-8 rounded-2xl border border-border shadow-sm">
+             <div className="mb-8">
+               <span className="text-3xl font-bold text-foreground">₹{property.rent_amount.toLocaleString('en-IN')}</span>
+               <span className="text-text-secondary font-medium"> / month</span>
              </div>
              
-             <div className="space-y-3 mb-6 text-sm text-gray-600 border-y border-gray-100 py-4">
-               <div className="flex justify-between">
-                 <span>Security Deposit</span>
-                 <span className="font-medium text-gray-900">₹{property.deposit_amount.toLocaleString('en-IN')}</span>
+             <div className="space-y-4 mb-8 text-sm border-y border-border py-6">
+               <div className="flex justify-between items-center">
+                 <span className="text-text-secondary">Security Deposit</span>
+                 <span className="font-semibold text-foreground">₹{property.deposit_amount.toLocaleString('en-IN')}</span>
                </div>
-               <div className="flex justify-between">
-                 <span>Maintenance</span>
-                 <span className="font-medium text-gray-900">
+               <div className="flex justify-between items-center">
+                 <span className="text-text-secondary">Maintenance</span>
+                 <span className="font-semibold text-foreground">
                    {property.maintenance_included ? 'Included' : `₹${property.maintenance_amount.toLocaleString('en-IN')}`}
                  </span>
                </div>
-               <div className="flex justify-between">
-                 <span>Available From</span>
-                 <span className="font-medium text-gray-900">
+               <div className="flex justify-between items-center">
+                 <span className="text-text-secondary">Available From</span>
+                 <span className="font-semibold text-foreground">
                    {property.available_from ? new Date(property.available_from).toLocaleDateString() : 'Immediately'}
                  </span>
                </div>
              </div>
 
-             <div className="mb-6">
-               <h3 className="font-medium mb-1">Listed by</h3>
-               <div className="text-gray-900 font-bold">{property.host?.first_name} {property.host?.last_name}</div>
-               <div className="text-sm text-gray-500">Member since {new Date(property.host?.created_at).getFullYear()}</div>
+             <div className="mb-8 bg-background p-4 rounded-xl border border-border">
+               <h3 className="font-semibold text-sm text-text-secondary uppercase tracking-wider mb-2">Listed by</h3>
+               <div className="text-foreground font-bold text-lg">{property.host?.first_name} {property.host?.last_name}</div>
+               <div className="text-sm text-text-muted mt-1">Member since {new Date(property.host?.created_at).getFullYear()}</div>
              </div>
 
              {user ? (
@@ -214,11 +216,11 @@ export default async function PropertyPage({ params }: { params: Promise<{ id: s
                </>
              ) : (
                <>
-                 <a href="/login" className="block text-center w-full bg-primary text-white py-3 rounded-md font-medium hover:bg-primary-hover transition">
+                 <a href="/login" className="flex items-center justify-center w-full bg-primary text-white py-3.5 rounded-[10px] font-medium hover:bg-primary-hover transition-colors shadow-sm">
                    Log in to Contact Host
                  </a>
                  <div className="text-center mt-4">
-                   <a href="/login" className="text-sm text-gray-500 hover:text-red-600 underline underline-offset-2 transition-colors">
+                   <a href="/login" className="text-sm text-text-muted hover:text-error transition-colors">
                      Report this listing
                    </a>
                  </div>

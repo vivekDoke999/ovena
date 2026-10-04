@@ -53,87 +53,87 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-secondary/30 px-4 py-12 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-xl">
-        <CardHeader className="space-y-2 text-center">
-          <CardTitle className="text-3xl font-bold tracking-tight text-primary">Create an Account</CardTitle>
-          <p className="text-sm text-gray-500">Join OVENA to find your next place or host renters.</p>
+    <div className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-xl shadow-sm border-border">
+        <CardHeader className="space-y-3 text-center pb-6">
+          <CardTitle className="text-3xl font-bold tracking-tight text-foreground">Create an Account</CardTitle>
+          <p className="text-sm text-text-secondary font-light">Join OVENA to find your next place or host renters.</p>
         </CardHeader>
         <CardContent>
           {success ? (
-            <div className="rounded-md bg-green-50 p-6 text-center text-green-700">
+            <div className="rounded-[10px] bg-green-50 p-6 text-center text-success border border-green-100">
               <h3 className="text-lg font-semibold mb-2">Account Created</h3>
               <p>You have successfully signed up. Redirecting...</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               {error && (
-                <div className="rounded-md bg-red-50 p-3 text-sm text-red-600">
+                <div className="rounded-[10px] bg-red-50 p-3 text-sm text-error border border-red-100">
                   {error}
                 </div>
               )}
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="firstName">First Name</Label>
+                  <Label htmlFor="firstName" className="text-foreground">First Name</Label>
                   <Input id="firstName" {...register('firstName')} aria-invalid={!!errors.firstName} />
-                  {errors.firstName && <p className="text-sm text-red-500">{errors.firstName.message}</p>}
+                  {errors.firstName && <p className="text-sm text-error">{errors.firstName.message}</p>}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="lastName">Last Name</Label>
+                  <Label htmlFor="lastName" className="text-foreground">Last Name</Label>
                   <Input id="lastName" {...register('lastName')} aria-invalid={!!errors.lastName} />
-                  {errors.lastName && <p className="text-sm text-red-500">{errors.lastName.message}</p>}
+                  {errors.lastName && <p className="text-sm text-error">{errors.lastName.message}</p>}
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-foreground">Email</Label>
                 <Input id="email" type="email" {...register('email')} aria-invalid={!!errors.email} />
-                {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+                {errors.email && <p className="text-sm text-error">{errors.email.message}</p>}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone">Phone (Optional)</Label>
+                <Label htmlFor="phone" className="text-foreground">Phone (Optional)</Label>
                 <Input id="phone" type="tel" {...register('phone')} aria-invalid={!!errors.phone} />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password" className="text-foreground">Password</Label>
                   <Input id="password" type="password" {...register('password')} aria-invalid={!!errors.password} />
-                  {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+                  {errors.password && <p className="text-sm text-error">{errors.password.message}</p>}
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirm Password</Label>
+                  <Label htmlFor="confirmPassword" className="text-foreground">Confirm Password</Label>
                   <Input id="confirmPassword" type="password" {...register('confirmPassword')} aria-invalid={!!errors.confirmPassword} />
-                  {errors.confirmPassword && <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>}
+                  {errors.confirmPassword && <p className="text-sm text-error">{errors.confirmPassword.message}</p>}
                 </div>
               </div>
 
-              <div className="space-y-3 pt-2 pb-4">
-                <Label>I want to:</Label>
+              <div className="space-y-3 pt-4 pb-4 border-t border-border mt-4">
+                <Label className="text-foreground font-semibold">I want to:</Label>
                 <div className="flex gap-4">
-                  <label className="flex items-center space-x-2 cursor-pointer border rounded-md p-3 flex-1 hover:bg-secondary">
-                    <input type="radio" value="RENTER" {...register('role')} className="text-primary" />
-                    <span className="text-sm font-medium">Rent a property</span>
+                  <label className="flex items-center space-x-3 cursor-pointer border border-border bg-surface rounded-[10px] p-4 flex-1 hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                    <input type="radio" value="RENTER" {...register('role')} className="text-primary focus:ring-primary h-4 w-4" />
+                    <span className="text-sm font-medium text-foreground">Rent a property</span>
                   </label>
-                  <label className="flex items-center space-x-2 cursor-pointer border rounded-md p-3 flex-1 hover:bg-secondary">
-                    <input type="radio" value="HOST" {...register('role')} className="text-primary" />
-                    <span className="text-sm font-medium">Host a property</span>
+                  <label className="flex items-center space-x-3 cursor-pointer border border-border bg-surface rounded-[10px] p-4 flex-1 hover:border-primary transition-colors has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+                    <input type="radio" value="HOST" {...register('role')} className="text-primary focus:ring-primary h-4 w-4" />
+                    <span className="text-sm font-medium text-foreground">Host a property</span>
                   </label>
                 </div>
-                {errors.role && <p className="text-sm text-red-500">{errors.role.message}</p>}
+                {errors.role && <p className="text-sm text-error">{errors.role.message}</p>}
               </div>
 
-              <Button type="submit" className="w-full" disabled={isSubmitting}>
+              <Button type="submit" className="w-full mt-2" disabled={isSubmitting}>
                 {isSubmitting ? 'Creating account...' : 'Create account'}
               </Button>
             </form>
           )}
 
-          <div className="mt-6 text-center text-sm text-gray-500">
+          <div className="mt-8 text-center text-sm text-text-secondary">
             Already have an account?{' '}
-            <Link href="/login" className="font-semibold text-primary hover:text-primary-hover">
+            <Link href="/login" className="font-medium text-primary hover:text-primary-hover transition-colors">
               Sign in
             </Link>
           </div>

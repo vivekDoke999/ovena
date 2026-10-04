@@ -20,8 +20,8 @@ export default async function HostLayout({ children }: { children: React.ReactNo
   }
 
   return (
-    <div className="flex-1 flex flex-col bg-secondary/10">
-      <main className="flex-1 max-w-7xl w-full mx-auto p-8">
+    <div className="flex-1 flex flex-col bg-background">
+      <main className="flex-1 max-w-[1200px] w-full mx-auto p-4 md:p-8">
         {children}
       </main>
     </div>

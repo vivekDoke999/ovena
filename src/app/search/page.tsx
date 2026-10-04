@@ -115,35 +115,37 @@ export default async function SearchPage({
   }
 
   return (
-    <div className="flex-1 flex flex-col md:flex-row w-full max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 gap-8">
+    <div className="flex-1 flex flex-col md:flex-row w-full max-w-[1400px] mx-auto py-8 px-4 sm:px-6 lg:px-8 gap-8 bg-background">
       {/* Filters Sidebar */}
-      <aside className="w-full md:w-64 shrink-0">
+      <aside className="w-full md:w-[280px] shrink-0">
         <MobileFilterWrapper>
-          <form className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 md:sticky md:top-24" method="GET">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="font-bold text-lg">Filters</h2>
+          <form className="bg-surface p-6 rounded-2xl shadow-sm border border-border md:sticky md:top-24" method="GET">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="font-semibold text-lg text-foreground">Filters</h2>
               <NearMeButton />
             </div>
             
-            <div className="space-y-4">
+            <div className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
-                <input type="text" name="city" defaultValue={city} className="w-full px-3 py-2 border rounded-md" placeholder="e.g. Mumbai" />
+                <label className="block text-sm font-medium text-foreground mb-1.5">City</label>
+                <input type="text" name="city" defaultValue={city} className="w-full px-3 py-2 border border-border bg-background rounded-[10px] text-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="e.g. Mumbai" />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Locality</label>
-                <input type="text" name="locality" defaultValue={locality} className="w-full px-3 py-2 border rounded-md" placeholder="e.g. Bandra" />
+                <label className="block text-sm font-medium text-foreground mb-1.5">Locality</label>
+                <input type="text" name="locality" defaultValue={locality} className="w-full px-3 py-2 border border-border bg-background rounded-[10px] text-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="e.g. Bandra" />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Amenity</label>
-                <input type="text" name="amenity" defaultValue={amenity} className="w-full px-3 py-2 border rounded-md" placeholder="e.g. Parking" />
+                <label className="block text-sm font-medium text-foreground mb-1.5">Amenity</label>
+                <input type="text" name="amenity" defaultValue={amenity} className="w-full px-3 py-2 border border-border bg-background rounded-[10px] text-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="e.g. Parking" />
               </div>
 
+              <div className="h-px bg-border my-2"></div>
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Furnishing</label>
-                <select name="furnishing" defaultValue={furnishing} className="w-full px-3 py-2 border rounded-md">
+                <label className="block text-sm font-medium text-foreground mb-1.5">Furnishing</label>
+                <select name="furnishing" defaultValue={furnishing} className="w-full px-3 py-2 border border-border bg-background rounded-[10px] text-sm focus:outline-none focus:ring-1 focus:ring-primary">
                   <option value="">Any</option>
                   <option value="UNFURNISHED">Unfurnished</option>
                   <option value="SEMI_FURNISHED">Semi Furnished</option>
@@ -152,8 +154,8 @@ export default async function SearchPage({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Property Type</label>
-                <select name="property_type" defaultValue={property_type} className="w-full px-3 py-2 border rounded-md">
+                <label className="block text-sm font-medium text-foreground mb-1.5">Property Type</label>
+                <select name="property_type" defaultValue={property_type} className="w-full px-3 py-2 border border-border bg-background rounded-[10px] text-sm focus:outline-none focus:ring-1 focus:ring-primary">
                   <option value="">Any</option>
                   <option value="APARTMENT">Apartment</option>
                   <option value="HOUSE">House</option>
@@ -162,20 +164,22 @@ export default async function SearchPage({
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Min Rent</label>
-                  <input type="number" name="min_rent" defaultValue={min_rent} className="w-full px-3 py-2 border rounded-md" placeholder="₹0" />
+                  <label className="block text-sm font-medium text-foreground mb-1.5">Min Rent</label>
+                  <input type="number" name="min_rent" defaultValue={min_rent} className="w-full px-3 py-2 border border-border bg-background rounded-[10px] text-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="₹0" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Max Rent</label>
-                  <input type="number" name="max_rent" defaultValue={max_rent} className="w-full px-3 py-2 border rounded-md" placeholder="Any" />
+                  <label className="block text-sm font-medium text-foreground mb-1.5">Max Rent</label>
+                  <input type="number" name="max_rent" defaultValue={max_rent} className="w-full px-3 py-2 border border-border bg-background rounded-[10px] text-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Any" />
                 </div>
               </div>
 
+              <div className="h-px bg-border my-2"></div>
+
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Bedrooms</label>
-                <select name="bedrooms" defaultValue={bedrooms} className="w-full px-3 py-2 border rounded-md">
+                <label className="block text-sm font-medium text-foreground mb-1.5">Bedrooms</label>
+                <select name="bedrooms" defaultValue={bedrooms} className="w-full px-3 py-2 border border-border bg-background rounded-[10px] text-sm focus:outline-none focus:ring-1 focus:ring-primary">
                   <option value="">Any</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -185,15 +189,15 @@ export default async function SearchPage({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
-                <select name="sort" defaultValue={sort} className="w-full px-3 py-2 border rounded-md">
+                <label className="block text-sm font-medium text-foreground mb-1.5">Sort By</label>
+                <select name="sort" defaultValue={sort} className="w-full px-3 py-2 border border-border bg-background rounded-[10px] text-sm focus:outline-none focus:ring-1 focus:ring-primary">
                   <option value="newest">Newest First</option>
                   <option value="price_asc">Price: Low to High</option>
                   <option value="price_desc">Price: High to Low</option>
                 </select>
               </div>
 
-              <button type="submit" className="w-full bg-primary text-white py-2 rounded-md font-medium hover:bg-primary-hover transition">
+              <button type="submit" className="w-full bg-primary text-white py-2.5 rounded-[10px] font-medium hover:bg-primary-hover transition mt-4">
                 Apply Filters
               </button>
             </div>
@@ -202,24 +206,29 @@ export default async function SearchPage({
       </aside>
 
       {/* Results */}
-      <section className="flex-1">
-        <h1 className="text-2xl font-bold mb-6">Properties ({count || 0})</h1>
+      <section className="flex-1 pb-16">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-medium text-foreground">Explore Properties</h1>
+            <p className="text-text-secondary mt-1">{count || 0} homes available</p>
+          </div>
+        </div>
         
         {error ? (
-          <div className="bg-red-50 text-red-600 p-4 rounded-md">
+          <div className="bg-red-50 text-error p-4 rounded-xl border border-red-100">
             Error loading properties. Please try again.
           </div>
         ) : (!properties || properties.length === 0) ? (
-          <div className="text-center py-24 bg-gray-50 rounded-2xl border border-gray-100 flex flex-col items-center justify-center">
-            <svg className="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="text-center py-32 bg-surface rounded-2xl border border-border flex flex-col items-center justify-center shadow-sm">
+            <svg className="w-16 h-16 text-border mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <h3 className="text-xl font-bold text-gray-900 mb-2">No properties found</h3>
-            <p className="text-gray-500 max-w-md">Try adjusting your filters or searching in a different locality to see more results.</p>
+            <h3 className="text-xl font-medium text-foreground mb-2">No properties found</h3>
+            <p className="text-text-secondary max-w-md">Try adjusting your filters or searching in a different locality to see more results.</p>
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-10 mb-12">
               {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
               {properties.map((property: any) => {
                 const imgPath = property.property_images?.[0]?.image_url;
@@ -236,7 +245,7 @@ export default async function SearchPage({
 
             {/* Pagination controls */}
             {totalPages > 1 && (
-              <div className="flex justify-center items-center gap-2 mt-8">
+              <div className="flex justify-center items-center gap-3 mt-12 pt-8 border-t border-border">
                 {page > 1 && (
                   <a 
                     href={`/search?${new URLSearchParams({
@@ -253,13 +262,13 @@ export default async function SearchPage({
                       ...(lng !== undefined && { lng: lng.toString() }),
                       page: (page - 1).toString()
                     }).toString()}`}
-                    className="px-4 py-2 border rounded-md text-sm font-medium hover:bg-gray-50"
+                    className="px-4 py-2 border border-border rounded-lg text-sm font-medium hover:bg-surface text-foreground transition-colors"
                   >
                     &larr; Previous
                   </a>
                 )}
                 
-                <span className="text-sm font-medium text-gray-600 px-4">
+                <span className="text-sm font-medium text-text-secondary px-4">
                   Page {page} of {totalPages}
                 </span>
 
@@ -279,7 +288,7 @@ export default async function SearchPage({
                       ...(lng !== undefined && { lng: lng.toString() }),
                       page: (page + 1).toString()
                     }).toString()}`}
-                    className="px-4 py-2 border rounded-md text-sm font-medium hover:bg-gray-50"
+                    className="px-4 py-2 border border-border rounded-lg text-sm font-medium hover:bg-surface text-foreground transition-colors"
                   >
                     Next &rarr;
                   </a>

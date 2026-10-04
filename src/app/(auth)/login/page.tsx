@@ -35,22 +35,22 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-secondary/30 px-4 py-12 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-2 text-center">
-          <CardTitle className="text-3xl font-bold tracking-tight text-primary">OVENA</CardTitle>
-          <p className="text-sm text-gray-500">Welcome back to the direct rental marketplace.</p>
+    <div className="flex min-h-[calc(100vh-80px)] items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
+      <Card className="w-full max-w-md shadow-sm border-border">
+        <CardHeader className="space-y-3 text-center pb-6">
+          <CardTitle className="text-3xl font-bold tracking-tight text-foreground">OVENA.</CardTitle>
+          <p className="text-sm text-text-secondary font-light">Welcome back to the direct rental marketplace.</p>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {error && (
-              <div className="rounded-md bg-red-50 p-3 text-sm text-red-600">
+              <div className="rounded-[10px] bg-red-50 p-3 text-sm text-error border border-red-100">
                 {error}
               </div>
             )}
             
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-foreground">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -58,12 +58,12 @@ export default function LoginPage() {
                 {...register('email')}
                 aria-invalid={!!errors.email}
               />
-              {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+              {errors.email && <p className="text-sm text-error">{errors.email.message}</p>}
             </div>
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-foreground">Password</Label>
               </div>
               <Input
                 id="password"
@@ -71,17 +71,17 @@ export default function LoginPage() {
                 {...register('password')}
                 aria-invalid={!!errors.password}
               />
-              {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+              {errors.password && <p className="text-sm text-error">{errors.password.message}</p>}
             </div>
 
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
+            <Button type="submit" className="w-full mt-2" disabled={isSubmitting}>
               {isSubmitting ? 'Signing in...' : 'Sign in'}
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-500">
+          <div className="mt-8 text-center text-sm text-text-secondary">
             Don&apos;t have an account?{' '}
-            <Link href="/signup" className="font-semibold text-primary hover:text-primary-hover">
+            <Link href="/signup" className="font-medium text-primary hover:text-primary-hover transition-colors">
               Sign up
             </Link>
           </div>
