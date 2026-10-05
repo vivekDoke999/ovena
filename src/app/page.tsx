@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
 import PropertyCard from '@/components/properties/PropertyCard';
 
@@ -48,21 +49,21 @@ export default async function Home() {
   }
 
   const propertyTypes = [
-    { label: 'Apartments', type: 'APARTMENT', count: counts['APARTMENT'] || 0, img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80' },
-    { label: 'Independent Houses', type: 'HOUSE', count: counts['HOUSE'] || 0, img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80' },
-    { label: 'Villas & Bungalows', type: 'VILLA', count: (counts['VILLA'] || 0) + (counts['BUNGALOW'] || 0), img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80' },
-    { label: 'Builder Floors', type: 'OTHER', count: counts['OTHER'] || 0, img: 'https://images.unsplash.com/photo-1600607688969-a5bfcd64bd28?w=800&q=80' },
-    { label: 'Rooms', type: 'ROOM', count: counts['ROOM'] || 0, img: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&q=80' },
-    { label: 'PG & Co-living', type: 'PG', count: counts['PG'] || 0, img: 'https://images.unsplash.com/photo-1520699049698-acd2fce18736?w=800&q=80' }
+    { label: 'Apartments', type: 'APARTMENT', count: counts['APARTMENT'] || 0, img: '/images/property-types/apartments.jpg' },
+    { label: 'Independent Houses', type: 'HOUSE', count: counts['HOUSE'] || 0, img: '/images/property-types/independent-houses.jpg' },
+    { label: 'Villas & Bungalows', type: 'VILLA', count: (counts['VILLA'] || 0) + (counts['BUNGALOW'] || 0), img: '/images/property-types/villas-bungalows.jpg' },
+    { label: 'Builder Floors', type: 'OTHER', count: counts['OTHER'] || 0, img: '/images/property-types/builder-floors.jpg' },
+    { label: 'Rooms', type: 'ROOM', count: counts['ROOM'] || 0, img: '/images/property-types/rooms.jpg' },
+    { label: 'PG & Co-living', type: 'PG', count: counts['PG'] || 0, img: '/images/property-types/pg-coliving.jpg' }
   ];
 
   const popularLocations = [
-    { name: 'Mumbai', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Mumbai_03-2016_30_Gateway_of_India.jpg/800px-Mumbai_03-2016_30_Gateway_of_India.jpg' },
-    { name: 'Bengaluru', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Lighting_of_Vidhana_Soudha.jpg/800px-Lighting_of_Vidhana_Soudha.jpg' },
-    { name: 'Delhi NCR', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/India_Gate_front.jpg/800px-India_Gate_front.jpg' },
-    { name: 'Pune', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Front_view_of_Shaniwar_Wada_illuminated.jpg/800px-Front_view_of_Shaniwar_Wada_illuminated.jpg' },
-    { name: 'Hyderabad', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Charminar_Hyderabad_1.jpg/800px-Charminar_Hyderabad_1.jpg' },
-    { name: 'Ahmedabad', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Sabarmati_1_Madhur.jpg/800px-Sabarmati_1_Madhur.jpg' }
+    { name: 'Mumbai', img: '/images/locations/mumbai.jpg' },
+    { name: 'Bengaluru', img: '/images/locations/bengaluru.jpg' },
+    { name: 'Delhi NCR', img: '/images/locations/delhi.jpg' },
+    { name: 'Pune', img: '/images/locations/pune.jpg' },
+    { name: 'Hyderabad', img: '/images/locations/hyderabad.jpg' },
+    { name: 'Ahmedabad', img: '/images/locations/ahmedabad.jpg' }
   ];
 
   return (
@@ -83,9 +84,14 @@ export default async function Home() {
         </div>
         
         <div className="flex-1 w-full lg:w-auto relative">
-          <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden bg-section-alt">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1200&auto=format&fit=crop" alt="Modern apartment interior" className="object-cover w-full h-full" />
+          <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden bg-section-alt relative">
+            <Image 
+              src="/images/property-types/apartments.jpg" 
+              alt="Modern apartment interior" 
+              fill
+              className="object-cover" 
+              priority
+            />
           </div>
         </div>
 
@@ -156,9 +162,8 @@ export default async function Home() {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {propertyTypes.map((cat) => (
             <Link key={cat.label} href={`/search?property_type=${cat.type}`} className="group flex flex-col gap-3">
-              <div className="aspect-[4/3] rounded-xl overflow-hidden bg-section-alt">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={cat.img} alt={cat.label} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 ease-out" />
+              <div className="aspect-[4/3] rounded-xl overflow-hidden bg-section-alt relative">
+                <Image src={cat.img} alt={cat.label} fill sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 16vw" className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out" />
               </div>
               <div>
                 <h3 className="text-[15px] font-medium text-foreground">{cat.label}</h3>
@@ -176,8 +181,7 @@ export default async function Home() {
           {popularLocations.map((city) => (
             <Link key={city.name} href={`/search?city=${encodeURIComponent(city.name)}`} className="group relative aspect-[3/4] rounded-xl overflow-hidden cursor-pointer">
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent transition-colors z-10"></div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={city.img} alt={city.name} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out" />
+              <Image src={city.img} alt={city.name} fill sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 16vw" className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
               <div className="absolute bottom-4 left-4 z-20">
                 <span className="text-white font-medium text-[15px]">{city.name}</span>
               </div>
