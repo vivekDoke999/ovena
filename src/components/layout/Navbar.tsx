@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { MobileMenu } from './MobileMenu';
+import { ProfileMenu } from './ProfileMenu';
 
 export default async function Navbar() {
   const supabase = await createClient();
@@ -63,13 +64,8 @@ export default async function Navbar() {
                <Link href="/admin" className="hover:text-foreground transition-colors">Admin</Link>
              )}
              
-            <div className="flex items-center gap-4 pl-5 border-l border-border">
-              <Link href={role === 'HOST' ? '/host' : role === 'ADMIN' ? '/admin' : '/renter/dashboard?tab=profile'} className="hover:text-foreground transition-colors font-medium">
-                {displayName}
-              </Link>
-              <form action="/auth/logout" method="POST">
-                <button type="submit" className="hover:text-foreground transition-colors">Logout</button>
-              </form>
+            <div className="flex items-center pl-5 border-l border-border ml-1">
+              <ProfileMenu displayName={displayName} email={user.email || ''} role={role} />
             </div>
           </div>
         ) : (

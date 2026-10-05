@@ -79,3 +79,21 @@ p {
 input, textarea, select {
   font-family: inherit;
 }
+
+.dark {
+  --background: #111714;
+  --section-alt: #1A221E;
+  --surface: #18201C;
+  --foreground: #F5F5F1;
+  --text-secondary: #B8BDB8;
+  --text-muted: #8F948F;
+  --border-color: #303A34;
+  --primary: #6F9A87;
+  --primary-hover: #5A8370;
+  --primary-soft: #23332B;
+  --accent: #C4A777;
+  --accent-soft: #382F1D;
+  --secondary: #222925;
+  --secondary-hover: #2D3631;
+}
+

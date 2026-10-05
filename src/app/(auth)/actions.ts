@@ -63,6 +63,7 @@ export async function signup(formData: FormData) {
     email,
     password,
     options: {
+      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/login`,
       data: {
         first_name: firstName,
         last_name: lastName,

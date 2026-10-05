@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 import { User } from '@supabase/supabase-js';
+import { useTheme } from '@/components/ThemeProvider';
 
 interface MobileMenuProps {
   user: User | null;
@@ -13,6 +14,7 @@ interface MobileMenuProps {
 
 export function MobileMenu({ user, role, displayName }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   return (
     <div className="md:hidden">
@@ -55,6 +57,20 @@ export function MobileMenu({ user, role, displayName }: MobileMenuProps) {
               <Link href="/renter/dashboard?tab=enquiries" onClick={() => setIsOpen(false)} className="py-2 text-text-secondary hover:text-foreground transition-colors">My Enquiries</Link>
             </>
           )}
+
+          <div className="h-px bg-border my-1"></div>
+          
+          {user && (
+            <Link href="/settings" onClick={() => setIsOpen(false)} className="py-2 text-text-secondary hover:text-foreground transition-colors">Settings</Link>
+          )}
+          <div className="py-2 flex items-center justify-between">
+            <span className="text-text-secondary">Theme</span>
+            <div className="flex bg-secondary-hover p-1 rounded-lg">
+              <button onClick={() => setTheme('light')} className={`px-3 py-1 text-[12px] rounded-md transition-colors ${theme === 'light' ? 'bg-surface text-foreground shadow-sm' : 'text-text-secondary'}`}>Light</button>
+              <button onClick={() => setTheme('dark')} className={`px-3 py-1 text-[12px] rounded-md transition-colors ${theme === 'dark' ? 'bg-surface text-foreground shadow-sm' : 'text-text-secondary'}`}>Dark</button>
+              <button onClick={() => setTheme('system')} className={`px-3 py-1 text-[12px] rounded-md transition-colors ${theme === 'system' ? 'bg-surface text-foreground shadow-sm' : 'text-text-secondary'}`}>System</button>
+            </div>
+          </div>
 
           <div className="h-px bg-border my-1"></div>
           
