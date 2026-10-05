@@ -62,9 +62,22 @@ export default async function SearchPage({
       .lte('longitude', lng + delta);
   }
 
+  // Smart search mapping
+  const normalizePropertyType = (type: string): string => {
+    const t = type.toLowerCase().trim();
+    if (['apartment', 'apartments', 'flat', 'flats', 'appartment', 'residential apartment'].includes(t)) return 'APARTMENT';
+    if (['house', 'houses', 'home', 'homes', 'independent house', 'independent home'].includes(t)) return 'HOUSE';
+    if (['villa', 'villas', 'independent villa'].includes(t)) return 'VILLA';
+    if (['bungalow', 'bungalows', 'banglow', 'banglows'].includes(t)) return 'BUNGALOW';
+    if (['builder floor', 'builder-floor', 'floor', 'independent floor'].includes(t)) return 'OTHER';
+    if (['room', 'rooms', 'single room', 'private room'].includes(t)) return 'ROOM';
+    if (['pg', 'paying guest', 'paying guest room', 'pg room', 'co living', 'co-living', 'coliving', 'shared living'].includes(t)) return 'PG';
+    return type.toUpperCase(); // Fallback to DB enum format
+  };
+
   if (property_type) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    query = query.eq('property_type', property_type as any);
+    query = query.eq('property_type', normalizePropertyType(property_type) as any);
   }
   if (furnishing) {
     query = query.eq('furnishing_status', furnishing);

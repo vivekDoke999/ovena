@@ -46,7 +46,7 @@ export default async function Navbar() {
       {/* RIGHT: Auth/Actions */}
       <div className="hidden md:flex flex-1 justify-end items-center gap-5">
         {(!user || (role !== 'HOST' && role !== 'ADMIN')) && (
-          <Link href="/host" className="text-[14px] font-medium text-primary hover:text-primary-hover transition-colors">
+          <Link href="/host" className="text-[14px] font-medium bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-hover transition-colors">
             List your property
           </Link>
         )}
@@ -75,7 +75,7 @@ export default async function Navbar() {
         ) : (
           <div className="flex items-center gap-3 ml-2">
             <Link href="/login" className="text-[14px] font-medium text-text-secondary hover:text-foreground transition-colors px-3 py-2">Log In</Link>
-            <Link href="/signup" className="text-[14px] font-medium bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-hover transition-colors">Sign Up</Link>
+            <Link href="/signup" className="text-[14px] font-medium text-text-secondary hover:text-foreground transition-colors px-3 py-2">Sign Up</Link>
           </div>
         )}
       </div>

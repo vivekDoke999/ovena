@@ -19,6 +19,19 @@ export default async function Home() {
     .order('created_at', { ascending: false })
     .limit(6);
 
+  // Fetch property_type counts
+  const { data: categoriesData } = await supabase
+    .from('properties')
+    .select('property_type')
+    .eq('status', 'AVAILABLE');
+
+  const counts: Record<string, number> = {};
+  if (categoriesData) {
+    categoriesData.forEach(p => {
+      counts[p.property_type] = (counts[p.property_type] || 0) + 1;
+    });
+  }
+
   // Pre-sign URLs for the featured properties
   const signedUrlMap: Record<string, string> = {};
   if (properties && properties.length > 0) {
@@ -34,40 +47,57 @@ export default async function Home() {
     }
   }
 
+  const propertyTypes = [
+    { label: 'Apartments', type: 'APARTMENT', count: counts['APARTMENT'] || 0, img: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80' },
+    { label: 'Independent Houses', type: 'HOUSE', count: counts['HOUSE'] || 0, img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80' },
+    { label: 'Villas & Bungalows', type: 'VILLA', count: (counts['VILLA'] || 0) + (counts['BUNGALOW'] || 0), img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80' },
+    { label: 'Builder Floors', type: 'OTHER', count: counts['OTHER'] || 0, img: 'https://images.unsplash.com/photo-1600607688969-a5bfcd64bd28?w=800&q=80' },
+    { label: 'Rooms', type: 'ROOM', count: counts['ROOM'] || 0, img: 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=800&q=80' },
+    { label: 'PG & Co-living', type: 'PG', count: counts['PG'] || 0, img: 'https://images.unsplash.com/photo-1520699049698-acd2fce18736?w=800&q=80' }
+  ];
+
+  const popularLocations = [
+    { name: 'Mumbai', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Mumbai_03-2016_30_Gateway_of_India.jpg/800px-Mumbai_03-2016_30_Gateway_of_India.jpg' },
+    { name: 'Bengaluru', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Lighting_of_Vidhana_Soudha.jpg/800px-Lighting_of_Vidhana_Soudha.jpg' },
+    { name: 'Delhi NCR', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/India_Gate_front.jpg/800px-India_Gate_front.jpg' },
+    { name: 'Pune', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Front_view_of_Shaniwar_Wada_illuminated.jpg/800px-Front_view_of_Shaniwar_Wada_illuminated.jpg' },
+    { name: 'Hyderabad', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Charminar_Hyderabad_1.jpg/800px-Charminar_Hyderabad_1.jpg' },
+    { name: 'Ahmedabad', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Sabarmati_1_Madhur.jpg/800px-Sabarmati_1_Madhur.jpg' }
+  ];
+
   return (
     <main className="flex min-h-screen flex-col bg-background">
       {/* Hero Section */}
       <section className="relative px-6 md:px-12 pt-16 md:pt-24 pb-32 max-w-7xl mx-auto w-full flex flex-col lg:flex-row gap-12 items-center">
         <div className="flex-1 z-10">
           <div className="inline-block text-[11px] font-bold tracking-[0.15em] text-primary uppercase mb-6 bg-primary-soft px-3 py-1.5 rounded-full">
-            India&apos;s Direct Rental Marketplace
+            INDIA&apos;S DIRECT RENTAL MARKETPLACE
           </div>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium text-foreground tracking-tight leading-[1.1] mb-6">
             Find a place.<br />
             <span className="text-text-secondary">Deal directly.</span>
           </h1>
           <p className="text-lg md:text-xl text-text-secondary mb-10 max-w-xl leading-relaxed">
-            Find quality rentals across Indian cities, directly from hosts. Zero middlemen, complete transparency.
+            Quality rentals across Indian cities, directly from hosts.
           </p>
         </div>
         
         <div className="flex-1 w-full lg:w-auto relative">
-          <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden shadow-sm bg-section-alt">
-            {/* Realistically, this would be an actual highly curated photo. We use an unsplash placeholder representing a nice Indian living room / apartment interior with natural light */}
+          <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden bg-section-alt">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1200&auto=format&fit=crop" alt="Modern apartment interior with natural light" className="object-cover w-full h-full" />
+            <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=1200&auto=format&fit=crop" alt="Modern apartment interior" className="object-cover w-full h-full" />
           </div>
         </div>
 
         {/* Floating Search Bar */}
-        <div className="absolute left-6 right-6 md:left-12 md:right-12 lg:left-12 -bottom-8 lg:right-auto z-20 max-w-4xl">
-          <form action="/search" className="bg-surface p-2 rounded-[16px] shadow-sm border border-border flex flex-col md:flex-row gap-0 items-stretch">
+        <div className="absolute left-6 right-6 md:left-12 md:right-12 lg:left-12 -bottom-8 lg:right-auto z-20 max-w-[950px] w-full">
+          <form action="/search" className="bg-surface p-2 rounded-[16px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-border flex flex-col md:flex-row gap-0 items-stretch w-full">
             <div className="flex-1 flex flex-col items-start px-5 py-3 md:border-r border-border hover:bg-section-alt rounded-xl transition-colors cursor-text">
               <label className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-1">Where</label>
               <input 
                 type="text" 
                 name="city"
-                placeholder="City, locality, or landmark"
+                placeholder="City / locality / landmark"
                 className="w-full bg-transparent outline-none text-foreground font-medium placeholder:font-normal placeholder:text-text-muted text-[15px]"
               />
             </div>
@@ -75,18 +105,19 @@ export default async function Home() {
             <div className="flex-1 flex flex-col items-start px-5 py-3 md:border-r border-border hover:bg-section-alt rounded-xl transition-colors cursor-pointer">
               <label className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-1">Property Type</label>
               <select name="property_type" className="w-full bg-transparent outline-none text-foreground font-medium appearance-none cursor-pointer text-[15px]">
-                <option value="">All Types</option>
+                <option value="">Apartment / House / Villa / Room / PG</option>
                 <option value="APARTMENT">Apartment</option>
                 <option value="HOUSE">Independent House</option>
                 <option value="VILLA">Villa</option>
-                <option value="PG">PG & Co-living</option>
+                <option value="ROOM">Room</option>
+                <option value="PG">PG &amp; Co-living</option>
               </select>
             </div>
 
             <div className="flex-1 flex flex-col items-start px-5 py-3 md:border-r border-border hover:bg-section-alt rounded-xl transition-colors cursor-pointer">
               <label className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-1">Budget</label>
               <select name="max_rent" className="w-full bg-transparent outline-none text-foreground font-medium appearance-none cursor-pointer text-[15px]">
-                <option value="">Any Budget</option>
+                <option value="">Maximum monthly rent</option>
                 <option value="15000">Up to ₹15,000</option>
                 <option value="25000">Up to ₹25,000</option>
                 <option value="40000">Up to ₹40,000</option>
@@ -94,9 +125,23 @@ export default async function Home() {
                 <option value="100000">Up to ₹1,00,000</option>
               </select>
             </div>
+
+            <div className="flex-1 flex flex-col items-start px-5 py-3 md:border-r border-border hover:bg-section-alt rounded-xl transition-colors cursor-pointer">
+              <label className="text-[11px] font-bold text-text-muted uppercase tracking-wider mb-1">BHK</label>
+              <select name="bhk" className="w-full bg-transparent outline-none text-foreground font-medium appearance-none cursor-pointer text-[15px]">
+                <option value="">1 / 2 / 3 / 4+</option>
+                <option value="1">1 BHK</option>
+                <option value="2">2 BHK</option>
+                <option value="3">3 BHK</option>
+                <option value="4">4+ BHK</option>
+              </select>
+            </div>
             
             <div className="flex items-center p-2 gap-2">
-              <button type="submit" className="bg-primary text-white px-8 py-3.5 rounded-xl font-medium hover:bg-primary-hover transition-colors shadow-sm h-full flex items-center justify-center min-w-[120px]">
+              <button type="button" className="bg-surface border border-border text-foreground px-4 py-3.5 rounded-xl font-medium hover:bg-section-alt transition-colors h-full flex items-center justify-center whitespace-nowrap text-[14px]">
+                Near Me
+              </button>
+              <button type="submit" className="bg-primary text-white px-8 py-3.5 rounded-xl font-medium hover:bg-primary-hover transition-colors h-full flex items-center justify-center min-w-[120px] text-[15px]">
                 Search
               </button>
             </div>
@@ -104,38 +149,38 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Popular Locations */}
+      {/* Property Types */}
       <section className="pt-32 pb-16 px-6 md:px-12 max-w-7xl mx-auto w-full">
-        <h2 className="text-[22px] md:text-[24px] font-medium text-foreground mb-8">Explore popular locations</h2>
+        <h2 className="text-[22px] md:text-[24px] font-medium text-foreground mb-1">Explore properties by type</h2>
+        <p className="text-text-secondary text-[15px] mb-8">Find the kind of home that fits your needs.</p>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {['Mumbai', 'Bengaluru', 'Delhi NCR', 'Pune', 'Hyderabad', 'Ahmedabad'].map((city) => (
-            <Link key={city} href={`/search?city=${city}`} className="group relative aspect-[4/5] rounded-xl overflow-hidden cursor-pointer">
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors z-10"></div>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`https://images.unsplash.com/photo-1596495578065-6e0763fa1178?q=80&w=400&auto=format&fit=crop`} alt={city} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out" />
-              <div className="absolute bottom-4 left-4 z-20">
-                <span className="text-white font-medium text-[15px]">{city}</span>
+          {propertyTypes.map((cat) => (
+            <Link key={cat.label} href={`/search?property_type=${cat.type}`} className="group flex flex-col gap-3">
+              <div className="aspect-[4/3] rounded-xl overflow-hidden bg-section-alt">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={cat.img} alt={cat.label} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500 ease-out" />
+              </div>
+              <div>
+                <h3 className="text-[15px] font-medium text-foreground">{cat.label}</h3>
+                <p className="text-[13px] text-text-secondary">{cat.count > 0 ? `${cat.count} properties` : 'No listings yet'}</p>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* Property Types */}
+      {/* Popular Locations */}
       <section className="py-16 px-6 md:px-12 max-w-7xl mx-auto w-full">
-        <h2 className="text-[22px] md:text-[24px] font-medium text-foreground mb-8">Browse by property type</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-          {[
-            { label: 'Apartments', type: 'APARTMENT', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
-            { label: 'Independent Houses', type: 'HOUSE', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
-            { label: 'Rooms', type: 'ROOM', icon: 'M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z' },
-            { label: 'PG & Co-living', type: 'PG', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
-            { label: 'Villas', type: 'VILLA', icon: 'M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9' },
-            { label: 'Commercial', type: 'COMMERCIAL', icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' }
-          ].map((cat) => (
-            <Link key={cat.type} href={`/search?property_type=${cat.type}`} className="flex flex-col items-start p-5 bg-surface border border-border rounded-xl hover:border-text-muted transition-colors">
-              <svg className="w-6 h-6 text-foreground mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={cat.icon} /></svg>
-              <span className="text-[14px] font-medium text-foreground">{cat.label}</span>
+        <h2 className="text-[22px] md:text-[24px] font-medium text-foreground mb-8">Explore popular locations</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {popularLocations.map((city) => (
+            <Link key={city.name} href={`/search?city=${encodeURIComponent(city.name)}`} className="group relative aspect-[3/4] rounded-xl overflow-hidden cursor-pointer">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent transition-colors z-10"></div>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={city.img} alt={city.name} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-out" />
+              <div className="absolute bottom-4 left-4 z-20">
+                <span className="text-white font-medium text-[15px]">{city.name}</span>
+              </div>
             </Link>
           ))}
         </div>
@@ -148,9 +193,6 @@ export default async function Home() {
             <h2 className="text-[22px] md:text-[24px] font-medium text-foreground mb-1">Recommended rentals</h2>
             <p className="text-text-secondary text-[15px]">Homes worth a closer look.</p>
           </div>
-          <Link href="/search" className="hidden sm:block text-[15px] font-medium text-foreground hover:text-text-secondary transition-colors underline underline-offset-4">
-            Show all
-          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10">
@@ -167,41 +209,36 @@ export default async function Home() {
             })
           )}
         </div>
-        <div className="mt-10 text-center sm:hidden">
-          <Link href="/search" className="inline-block border border-border bg-surface text-foreground px-6 py-3 rounded-lg font-medium hover:bg-section-alt transition-colors">
-            Show all properties
-          </Link>
-        </div>
       </section>
 
       {/* Trust Section */}
-      <section className="py-24 px-6 md:px-12 bg-section-alt mt-8">
+      <section className="py-24 px-6 md:px-12 mt-8">
         <div className="max-w-7xl mx-auto w-full">
           <h2 className="text-[22px] md:text-[24px] font-medium text-foreground mb-12">Why OVENA?</h2>
           <div className="grid md:grid-cols-4 gap-12">
             <div>
-              <div className="w-10 h-10 bg-surface rounded-full flex items-center justify-center mb-5 shadow-sm border border-border">
+              <div className="w-10 h-10 bg-surface rounded-full flex items-center justify-center mb-5 border border-border">
                 <svg className="w-5 h-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
               </div>
               <h3 className="text-[16px] font-medium text-foreground mb-2">Direct conversations</h3>
               <p className="text-[14px] text-text-secondary leading-relaxed">Speak directly with property owners. No middlemen or unnecessary friction.</p>
             </div>
             <div>
-              <div className="w-10 h-10 bg-surface rounded-full flex items-center justify-center mb-5 shadow-sm border border-border">
+              <div className="w-10 h-10 bg-surface rounded-full flex items-center justify-center mb-5 border border-border">
                 <svg className="w-5 h-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               </div>
               <h3 className="text-[16px] font-medium text-foreground mb-2">Verified listings</h3>
               <p className="text-[14px] text-text-secondary leading-relaxed">Every host and property is thoroughly checked before going live on our platform.</p>
             </div>
             <div>
-              <div className="w-10 h-10 bg-surface rounded-full flex items-center justify-center mb-5 shadow-sm border border-border">
+              <div className="w-10 h-10 bg-surface rounded-full flex items-center justify-center mb-5 border border-border">
                 <svg className="w-5 h-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
               </div>
               <h3 className="text-[16px] font-medium text-foreground mb-2">Transparent details</h3>
               <p className="text-[14px] text-text-secondary leading-relaxed">Clear breakdown of rent, deposit, and maintenance. No hidden surprises.</p>
             </div>
             <div>
-              <div className="w-10 h-10 bg-surface rounded-full flex items-center justify-center mb-5 shadow-sm border border-border">
+              <div className="w-10 h-10 bg-surface rounded-full flex items-center justify-center mb-5 border border-border">
                 <svg className="w-5 h-5 text-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
               </div>
               <h3 className="text-[16px] font-medium text-foreground mb-2">Simple enquiry</h3>
@@ -212,11 +249,11 @@ export default async function Home() {
       </section>
       
       {/* Host CTA */}
-      <section className="py-24 px-6 md:px-12 bg-primary-soft">
+      <section className="py-24 px-6 md:px-12 bg-section-alt">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-medium text-foreground mb-4">Have a property to rent?</h2>
           <p className="text-[16px] text-text-secondary mb-8">List it on OVENA and connect directly with quality renters. Control your pricing and manage enquiries seamlessly.</p>
-          <Link href="/host" className="inline-block bg-primary text-white px-8 py-3.5 rounded-xl font-medium hover:bg-primary-hover transition-colors shadow-sm">
+          <Link href="/host" className="inline-block bg-primary text-white px-8 py-3.5 rounded-xl font-medium hover:bg-primary-hover transition-colors">
             List your property
           </Link>
         </div>
