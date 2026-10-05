@@ -180,11 +180,11 @@ export default async function Home() {
         <h2 className="text-[22px] md:text-[24px] font-medium text-foreground mb-8">Explore popular locations</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {popularLocations.map((city) => (
-            <Link key={city.name} href={`/search?city=${encodeURIComponent(city.name)}`} className="group relative aspect-[3/4] rounded-xl overflow-hidden cursor-pointer">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent transition-colors z-10"></div>
+            <Link key={city.name} href={`/search?city=${encodeURIComponent(city.name)}`} className="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer">
+              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/70 via-black/20 to-transparent transition-colors z-10"></div>
               <Image src={city.img} alt={city.name} fill sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 16vw" className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
-              <div className="absolute bottom-4 left-4 z-20">
-                <span className="text-white font-medium text-[15px]">{city.name}</span>
+              <div className="absolute bottom-4 left-5 z-20">
+                <span className="text-white font-medium text-[16px]">{city.name}</span>
               </div>
             </Link>
           ))}
