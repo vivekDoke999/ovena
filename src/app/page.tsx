@@ -86,9 +86,10 @@ export default async function Home() {
         <div className="flex-1 w-full lg:w-auto relative">
           <div className="aspect-[4/3] w-full rounded-2xl overflow-hidden bg-section-alt relative">
             <Image 
-              src="/images/property-types/apartments.jpg" 
+              src="/images/hero/hero-home.jpg" 
               alt="Modern apartment interior" 
               fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover" 
               priority
             />
