@@ -49,21 +49,21 @@ export default async function Home() {
   }
 
   const propertyTypes = [
-    { label: 'Apartments', type: 'APARTMENT', count: counts['APARTMENT'] || 0, img: '/images/property-types/apartments.jpg' },
-    { label: 'Independent Houses', type: 'HOUSE', count: counts['HOUSE'] || 0, img: '/images/property-types/independent-houses.jpg' },
-    { label: 'Villas & Bungalows', type: 'VILLA', count: (counts['VILLA'] || 0) + (counts['BUNGALOW'] || 0), img: '/images/property-types/villas-bungalows.jpg' },
-    { label: 'Builder Floors', type: 'OTHER', count: counts['OTHER'] || 0, img: '/images/property-types/builder-floors.jpg' },
-    { label: 'Rooms', type: 'ROOM', count: counts['ROOM'] || 0, img: '/images/property-types/rooms.jpg' },
-    { label: 'PG & Co-living', type: 'PG', count: counts['PG'] || 0, img: '/images/property-types/pg-coliving.jpg' }
+    { label: 'Apartments', type: 'APARTMENT', count: counts['APARTMENT'] || 0, img: '/images/property-types/apartments-v2.jpg' },
+    { label: 'Independent Houses', type: 'HOUSE', count: counts['HOUSE'] || 0, img: '/images/property-types/independent-houses-v2.jpg' },
+    { label: 'Villas & Bungalows', type: 'VILLA', count: (counts['VILLA'] || 0) + (counts['BUNGALOW'] || 0), img: '/images/property-types/villas-bungalows-v2.jpg' },
+    { label: 'Builder Floors', type: 'OTHER', count: counts['OTHER'] || 0, img: '/images/property-types/builder-floors-v2.jpg' },
+    { label: 'Rooms', type: 'ROOM', count: counts['ROOM'] || 0, img: '/images/property-types/rooms-v2.jpg' },
+    { label: 'PG & Co-living', type: 'PG', count: counts['PG'] || 0, img: '/images/property-types/pg-coliving-v2.jpg' }
   ];
 
   const popularLocations = [
-    { name: 'Mumbai', img: '/images/locations/mumbai.jpg' },
-    { name: 'Bengaluru', img: '/images/locations/bengaluru.jpg' },
-    { name: 'Delhi NCR', img: '/images/locations/delhi.jpg' },
-    { name: 'Pune', img: '/images/locations/pune.jpg' },
-    { name: 'Hyderabad', img: '/images/locations/hyderabad.jpg' },
-    { name: 'Ahmedabad', img: '/images/locations/ahmedabad.jpg' }
+    { name: 'Mumbai', img: '/images/locations/mumbai-v2.jpg' },
+    { name: 'Bengaluru', img: '/images/locations/bengaluru-v2.jpg' },
+    { name: 'Delhi NCR', img: '/images/locations/delhi-ncr-v2.jpg' },
+    { name: 'Pune', img: '/images/locations/pune-v2.jpg' },
+    { name: 'Hyderabad', img: '/images/locations/hyderabad-v2.jpg' },
+    { name: 'Ahmedabad', img: '/images/locations/ahmedabad-v2.jpg' }
   ];
 
   return (
